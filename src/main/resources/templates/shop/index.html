@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Pastry Shop Workstation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="theme-color" content="#000000"/>
+    <!--
+      chef.manifest.json provides metadata used when your web app is added to the
+      homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
+    -->
+    <link rel="manifest" href="/shop.manifest.json"/>
+    <link rel="shortcut icon" href="/favicon.ico"/>
+</head>
+<body>
+<noscript>
+    You need to enable JavaScript to run this app.
+</noscript>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+    var api = {
+        shop: [[${shop}]],
+        root: [[${root}]]
+    }
+
+    /*]]>*/
+</script>
+<div id='app'>
+</div>
+<script th:inline="javascript" src="/shop.bundle.js"></script>
+</body>
+</html>
