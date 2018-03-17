@@ -1,15 +1,30 @@
 package gundulf.api;
 
+import com.fasterxml.jackson.core.Version;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/orders")
 class OrderController {
+
+    @Autowired
+    OrderService orderService;
+
+    @Autowired
+    ProductService productService;
 
 
     @Autowired
@@ -18,36 +33,6 @@ class OrderController {
     @Value("${API_ORDERS}")
     private String root;
 
-    private String orders = "/api/orders";
-
-    /**
-     * ORDER-001 - the_producer_lists_the_orders
-     * <p>
-     * as a producer
-     * I want to list all my order lines
-     * so that I can facilitate dispatching the products
-     */
-    @GetMapping("/producer/{producer}")
-    ResponseEntity<String> producerOrders(@PathVariable String producer) {
-
-        return apiBouncer.get(root + orders + "/producer/" + producer);
-
-    }
-
-    /**
-     * ORDER-002 - the_producer_lists_the_daily_todo
-     * <p>
-     * as a producer
-     * I want to get my todolist
-     * so that I can facilitate my daily work
-     * and possibly anticipate the future productions
-     */
-    @GetMapping("/producer/{producer}/todo")
-    ResponseEntity<String> producerTodos(@PathVariable String producer) {
-
-        return apiBouncer.get(root + orders + "/producer/" + producer + "/todo");
-
-    }
 
     /**
      * ORDER-003 - the_shop_holder_lists_the_orders
@@ -60,7 +45,7 @@ class OrderController {
     @GetMapping("/shop/{shop}")
     ResponseEntity<String> shopOrders(@PathVariable String shop) {
 
-        return apiBouncer.get(root + orders + "/shop/" + shop);
+        return apiBouncer.get(root + shop);
 
     }
 
@@ -73,11 +58,27 @@ class OrderController {
      * and possibly modify or cancel my commands
      */
     @GetMapping("/shop/{shop}/products/{producer}")
-    ResponseEntity<String> dailyOrders(@PathVariable String shop,
+    List<OrderLine> dailyOrders(@PathVariable String shop,
                                             @PathVariable String producer) {
 
-        return apiBouncer.get(root + orders + "/shop/" + shop + "/products/" + producer);
+        Map<String, OrderLine> orderLineMap = productService.mapProductLines(shop, producer);
+
+        Map<String, OrderLine> shopOrders = orderService.mapOrderLines( shop, producer);
+
+        orderLineMap.putAll(shopOrders);
+
+        List<OrderLine> result = orderLineMap.values().stream().collect(Collectors.toList());
+
+        result.sort((l, r) -> {
+            if(l.getDeadline().equals(r.getDeadline())){
+                return l.getProduct().compareTo(r.getProduct());
+            }
+            return l.getDeadline().compareTo(r.getDeadline());
+        });
+        return result;
     }
+
+
 
     /**
      *
@@ -92,7 +93,7 @@ class OrderController {
     ResponseEntity<?> create(@PathVariable String shop,
                              @RequestBody String order) {
 
-        return apiBouncer.post(root + orders + "/shop/" + shop, order);
+        return apiBouncer.post(root + shop, order);
 
     }
 
@@ -110,7 +111,7 @@ class OrderController {
                                   @PathVariable String id,
                                   @RequestBody String order) {
 
-        return apiBouncer.put(root + orders + "/shop/" + shop + "/" + id, order);
+        return apiBouncer.put(root + shop + "/" + id, order);
 
     }
 
@@ -118,6 +119,7 @@ class OrderController {
     void delete(@PathVariable String shop,
                 @PathVariable(required = true) Long id) {
 
-        apiBouncer.delete(root + orders + "/shop/" + shop + "/" + id);
+        apiBouncer.delete(root + shop + "/" + id);
     }
+
 }//:)

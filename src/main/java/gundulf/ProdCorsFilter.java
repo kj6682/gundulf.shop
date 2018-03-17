@@ -29,7 +29,7 @@ public class ProdCorsFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
 
-        String[] allowDomain = {"http://gundulf-chef.herokuapp.com", "https://gundulf-chef.herokuapp.com"};
+        String[] allowDomain = {"http://gundulf-shop.herokuapp.com", "https://gundulf-shop.herokuapp.com"};
         Set<String> allowedOrigins = new HashSet<>(Arrays.asList(allowDomain));
         String originHeader = request.getHeader("Origin");
 
