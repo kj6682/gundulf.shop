@@ -1,4 +1,4 @@
-package gundulf;
+package org.kj6682.gundulf;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;

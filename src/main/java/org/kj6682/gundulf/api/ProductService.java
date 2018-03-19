@@ -1,4 +1,4 @@
-package gundulf.api;
+package org.kj6682.gundulf.api;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.ObjectCodec;

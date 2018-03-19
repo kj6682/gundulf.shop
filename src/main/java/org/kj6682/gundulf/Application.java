@@ -1,4 +1,4 @@
-package gundulf;
+package org.kj6682.gundulf;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

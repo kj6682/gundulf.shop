@@ -1,4 +1,4 @@
-package gundulf.api;
+package org.kj6682.gundulf.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;

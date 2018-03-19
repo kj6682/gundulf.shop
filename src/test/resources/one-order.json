@@ -1,0 +1,10 @@
+{
+  "created" : "2017-12-03",
+  "deadline": "2017-12-04",
+  "executed": 0,
+  "producer": "four",
+  "product": "millefeuilles-6",
+  "quantity": 10,
+  "shop": "paris",
+  "status": "NEW"
+}
