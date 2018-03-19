@@ -28,14 +28,14 @@ public class OrderService {
 
     ResponseEntity<String> shopOrders(String shop) {
 
-        return apiBouncer.get(root + shop);
+        return apiBouncer.get(String.format("%s/%s",root, shop));
 
     }
 
     ResponseEntity<?> create(@PathVariable String shop,
                              @RequestBody String order) {
 
-        return apiBouncer.post(root + shop, order);
+        return apiBouncer.post(String.format("%s/%s",root, shop), order);
 
     }
 
@@ -43,21 +43,22 @@ public class OrderService {
                              @PathVariable String id,
                              @RequestBody String order) {
 
-        return apiBouncer.put(root + shop + "/" + id, order);
+        return apiBouncer.put(String.format("%s/%s/%s",root, shop, id), order);
 
     }
 
     void delete(@PathVariable String shop,
                 @PathVariable(required = true) Long id) {
 
-        apiBouncer.delete(root + shop + "/" + id);
+        apiBouncer.delete(String.format("%s/%s/%s",root, shop, id));
     }
 
     Map<String, OrderLine> mapOrderLines(String shop, String producer) {
 
-        final String restEndPointUrl = root + shop + "/" + producer + "/" + LocalDate.now().plusDays(1);;
+        final String restEndPointUrl = String.format("%s/%s/%s/%s", root, shop, producer, LocalDate.now().plusDays(1).toString());
 
         OrderLine[] forNow = restTemplate.getForObject(restEndPointUrl, OrderLine[].class);
+
         List<OrderLine> result = Arrays.asList(forNow);
         return result.stream()
                 .collect(Collectors

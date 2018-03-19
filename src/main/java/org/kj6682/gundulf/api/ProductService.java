@@ -28,7 +28,7 @@ public class ProductService {
     ApiBouncer apiBouncer;
 
     @Value("${API_PRODUCTS}")
-    private String products;
+    private String root;
 
 
      Map<String, OrderLine> mapProductLines(String shop, String producer) {
@@ -42,7 +42,7 @@ public class ProductService {
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         objectMapper.registerModule(module);
 
-        String jsonProds = apiBouncer.get(products + "/" + producer).getBody();
+        String jsonProds = apiBouncer.get(String.format("%s/%s",root, producer)).getBody();
 
         Map<String, OrderLine> result;
         try{
