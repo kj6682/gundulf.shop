@@ -14,9 +14,9 @@ import java.util.Enumeration;
 
 @Profile({"dev"})
 @Component
-public class SimpleCorsFilter implements Filter {
+public class DevCorsFilter implements Filter {
 
-    private final Logger log = LoggerFactory.getLogger(SimpleCorsFilter.class);
+    private final Logger log = LoggerFactory.getLogger(DevCorsFilter.class);
 
 
     @Override

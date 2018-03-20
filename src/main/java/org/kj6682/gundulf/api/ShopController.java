@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/orders")
-class OrderController {
+class ShopController {
 
     @Autowired
     OrderService orderService;

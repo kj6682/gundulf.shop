@@ -24,18 +24,18 @@ public class OrderService {
     ApiBouncer apiBouncer;
 
     @Value("${API_ORDERS}")
-    private String root;
+    private String ordelines_root;
 
     ResponseEntity<String> shopOrders(String shop) {
 
-        return apiBouncer.get(String.format("%s/%s",root, shop));
+        return apiBouncer.get(String.format("%s/%s", ordelines_root, shop));
 
     }
 
     ResponseEntity<?> create(@PathVariable String shop,
                              @RequestBody String order) {
 
-        return apiBouncer.post(String.format("%s/%s",root, shop), order);
+        return apiBouncer.post(String.format("%s/%s", ordelines_root, shop), order);
 
     }
 
@@ -43,19 +43,19 @@ public class OrderService {
                              @PathVariable String id,
                              @RequestBody String order) {
 
-        return apiBouncer.put(String.format("%s/%s/%s",root, shop, id), order);
+        return apiBouncer.put(String.format("%s/%s/%s", ordelines_root, shop, id), order);
 
     }
 
     void delete(@PathVariable String shop,
                 @PathVariable(required = true) Long id) {
 
-        apiBouncer.delete(String.format("%s/%s/%s",root, shop, id));
+        apiBouncer.delete(String.format("%s/%s/%s", ordelines_root, shop, id));
     }
 
     Map<String, OrderLine> mapOrderLines(String shop, String producer) {
 
-        final String restEndPointUrl = String.format("%s/%s/%s/%s", root, shop, producer, LocalDate.now().plusDays(1).toString());
+        final String restEndPointUrl = String.format("%s/%s/%s/%s", ordelines_root, shop, producer, LocalDate.now().plusDays(1).toString());
 
         OrderLine[] forNow = restTemplate.getForObject(restEndPointUrl, OrderLine[].class);
 
