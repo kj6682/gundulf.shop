@@ -23,13 +23,10 @@ if (!process.env.DEV_SERVER) {
 }
 else {
     shop = 'paris';
-    root = "http://localhost:8080";
+    root = "http://localhost:8090";
 }
 
-
-const uri_orders = root + '/api/orders/shop/' + shop;
-const uri_orders_products = uri_orders + '/products/';
-
+const uri_orderlines = root + '/api/shop/' + shop + '/orderlines/'
 
 class App extends React.Component {
 
@@ -45,10 +42,6 @@ class App extends React.Component {
             today: '',
             search4me: ''
         };
-
-        this.listMyOrders = this.listMyOrders.bind(this)
-        this.updateMyOrder = this.updateMyOrder.bind(this)
-        this.deleteMyOrder = this.deleteMyOrder.bind(this)
 
         this.listOrdersPerProducer = this.listOrdersPerProducer.bind(this)
         this.createOrder = this.createOrder.bind(this)
@@ -66,16 +59,12 @@ class App extends React.Component {
         this.setState({search4me: searchTerm})
     }
 
-    listMyOrders() {
-        get(uri_orders)
-            .then((data) => {
-                this.setState({orders: data});
-            });
-    }
-
     listOrdersPerProducer(producer) {
 
-        get(uri_orders_products + producer)
+        let uri_refresh = uri_orderlines;
+        if(producer !=='orders') {uri_refresh = uri_refresh + producer};
+
+        get(uri_refresh)
             .then((data) => {
                 this.setState({[producer]: data});
             });
@@ -84,9 +73,12 @@ class App extends React.Component {
 
     createOrder(producer, jsonOrder) {
 
-        post(uri_orders, jsonOrder)
+        let uri_refresh = uri_orderlines;
+        if(producer !=='orders') {uri_refresh = uri_refresh + producer};
+
+        post(uri_orderlines, jsonOrder)
             .then(
-                () => get(uri_orders_products + producer, {page: 0}).then(
+                () => get(uri_refresh, {page: 0}).then(
                     (data) => {
                         this.setState({[producer]: data});
                     }
@@ -94,46 +86,40 @@ class App extends React.Component {
             );
     }
 
-    updateMyOrder(id, producer, jsonOrder) {
-
-        put(uri_orders, id, jsonOrder)
-            .then(
-                () => get(uri_orders).then(
-                    (data) => {
-                        this.setState({orders: data, [producer]: []});
-                    }
-                )
-            );
-    }
 
     updateOrder(id, producer, jsonOrder) {
 
-        put(uri_orders, id, jsonOrder)
+        console.log(producer)
+        let uri_refresh = uri_orderlines;
+        if(producer !=='orders') {uri_refresh = uri_refresh + producer};
+        console.log(uri_refresh)
+
+        put(uri_orderlines, id, jsonOrder)
             .then(
-                () => get(uri_orders_products + producer, {page: 0}).then(
+                () => get(uri_refresh, {page: 0}).then(
                     (data) => {
-                        this.setState({[producer]: data, orders: []});
+                        this.setState({[producer]: data});
                     }
                 )
             );
-
-    }
-
-    deleteMyOrder(id, producer) {
-
-        deleteObject(uri_orders, id).then(() => get(uri_orders).then((data) => {
-            this.setState({orders: data});
-        }));
 
     }
 
 
     deleteOrder(id, producer) {
 
-        deleteObject(uri_orders, id).then(() => get(uri_orders_products + producer, {page: 0}).then((data) => {
-            this.setState({[producer]: data});
-        }));
+        let uri_refresh = uri_orderlines;
+        if(producer !=='orders') {uri_refresh = uri_refresh + producer};
 
+        deleteObject(uri_orderlines, id)
+            .then(
+                () => get(uri_refresh, {page: 0}).then(
+                    (data) => {
+                        let ords = this.state.orders.filter((order) => order.id !== id);
+                        this.setState({[producer]: data, orders: ords});
+                    }
+                )
+            );
     }
 
 
@@ -143,8 +129,8 @@ class App extends React.Component {
                                      filterText={this.state.search4me}
                                      callbacks={{
                                          create: this.createOrder,
-                                         update: this.updateMyOrder,
-                                         delete: this.deleteMyOrder
+                                         update: this.updateOrder,
+                                         delete: this.deleteOrder
                                      }}/>
 
 
@@ -206,7 +192,7 @@ class App extends React.Component {
                     <Col xs={12} md={8}>
                         <Accordion defaultActiveKey="1">
 
-                            <Panel header="My orders" eventKey="" onSelect={this.listMyOrders}>
+                            <Panel header="My orders" eventKey="orders" onSelect={this.listOrdersPerProducer}>
 
                                 <p>{config.my_orders}</p>
 

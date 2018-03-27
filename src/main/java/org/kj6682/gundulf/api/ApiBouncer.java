@@ -24,8 +24,8 @@ class ApiBouncer {
     @Bean
     RestTemplate restTemplate(RestTemplateBuilder builder) {
         requestHeaders = new HttpHeaders();
-        requestHeaders.setContentType(new MediaType("application","json"));
-        requestHeaders.setAccept(Collections.singletonList(new MediaType("application","json")));
+        requestHeaders.setContentType(new MediaType("application", "json"));
+        requestHeaders.setAccept(Collections.singletonList(new MediaType("application", "json")));
 
         builder.messageConverters().additionalMessageConverters(new MappingJackson2HttpMessageConverter(), new StringHttpMessageConverter());
         return builder.build();
@@ -34,7 +34,7 @@ class ApiBouncer {
 
     ResponseEntity<String> get(String endpoint) {
         ResponseEntity<String> response = restTemplate.getForEntity(endpoint, String.class);
-        Assert.isTrue(HttpStatus.OK.equals(response.getStatusCode()),"something got wrong with " + endpoint);
+        Assert.isTrue(HttpStatus.OK.equals(response.getStatusCode()), "something got wrong with " + endpoint);
         return response;
     }
 
@@ -47,6 +47,7 @@ class ApiBouncer {
     }
 
     ResponseEntity<?> put(String endpoint, @RequestBody String body) {
+
         HttpEntity<?> requestEntity = new HttpEntity<Object>(body, requestHeaders);
 
         ResponseEntity<String> response = restTemplate.exchange(endpoint, HttpMethod.PUT, requestEntity, String.class);

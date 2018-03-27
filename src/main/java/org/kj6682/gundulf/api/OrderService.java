@@ -24,38 +24,36 @@ public class OrderService {
     ApiBouncer apiBouncer;
 
     @Value("${API_ORDERS}")
-    private String ordelines_root;
+    private String root;
+
+    private String orderlines_root = "/api/orderlines/shop";
 
     ResponseEntity<String> shopOrders(String shop) {
 
-        return apiBouncer.get(String.format("%s/%s", ordelines_root, shop));
+        return apiBouncer.get(String.format("%s/%s", root + orderlines_root, shop));
 
     }
 
-    ResponseEntity<?> create(@PathVariable String shop,
-                             @RequestBody String order) {
+    ResponseEntity<?> create(String shop, String order) {
 
-        return apiBouncer.post(String.format("%s/%s", ordelines_root, shop), order);
-
-    }
-
-    ResponseEntity<?> update(@PathVariable String shop,
-                             @PathVariable String id,
-                             @RequestBody String order) {
-
-        return apiBouncer.put(String.format("%s/%s/%s", ordelines_root, shop, id), order);
+        return apiBouncer.post(String.format("%s/%s", root + orderlines_root, shop), order);
 
     }
 
-    void delete(@PathVariable String shop,
-                @PathVariable(required = true) Long id) {
+    ResponseEntity<?> update(String shop, String id, String order) {
 
-        apiBouncer.delete(String.format("%s/%s/%s", ordelines_root, shop, id));
+        return apiBouncer.put(String.format("%s/%s/%s", root + orderlines_root, shop, id), order);
+
+    }
+
+    ResponseEntity<?> delete(String shop, Long id) {
+
+        return apiBouncer.delete(String.format("%s/%s/%s", root + orderlines_root, shop, id));
     }
 
     Map<String, OrderLine> mapOrderLines(String shop, String producer) {
 
-        final String restEndPointUrl = String.format("%s/%s/%s/%s", ordelines_root, shop, producer, LocalDate.now().plusDays(1).toString());
+        final String restEndPointUrl = String.format("%s/%s/%s/%s", root + orderlines_root, shop, producer, LocalDate.now().plusDays(1).toString());
 
         OrderLine[] forNow = restTemplate.getForObject(restEndPointUrl, OrderLine[].class);
 

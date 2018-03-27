@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/orders")
+@RequestMapping("/api")
 class ShopController {
 
     @Autowired
@@ -19,7 +19,7 @@ class ShopController {
     ProductService productService;
 
 
-    @GetMapping("/shop/{shop}")
+    @GetMapping("/shop/{shop}/orderlines")
     ResponseEntity<String> shopOrders(@PathVariable String shop) {
 
         return orderService.shopOrders(shop);
@@ -31,9 +31,9 @@ class ShopController {
      * the_shop_holder_list_the_products_to_place_orders
      *
      */
-    @GetMapping("/shop/{shop}/products/{producer}")
+    @GetMapping("/shop/{shop}/orderlines/{producer}")
     List<OrderLine> dailyOrders(@PathVariable String shop,
-                                            @PathVariable String producer) {
+                                @PathVariable String producer) {
 
         Map<String, OrderLine> orderLineMap = productService.mapProductLines(shop, producer);
 
@@ -54,7 +54,7 @@ class ShopController {
 
 
 
-    @PostMapping(value = "/shop/{shop}")
+    @PostMapping(value = "/shop/{shop}/orderlines")
     ResponseEntity<?> create(@PathVariable String shop,
                              @RequestBody String order) {
 
@@ -62,7 +62,7 @@ class ShopController {
 
     }
 
-    @PutMapping(value = "/shop/{shop}/{id}")
+    @PutMapping(value = "/shop/{shop}/orderlines/{id}")
     ResponseEntity<?> update(@PathVariable String shop,
                                   @PathVariable String id,
                                   @RequestBody String order) {
@@ -71,11 +71,11 @@ class ShopController {
 
     }
 
-    @DeleteMapping(value = "/shop/{shop}/{id}")
-    void delete(@PathVariable String shop,
+    @DeleteMapping(value = "/shop/{shop}/orderlines/{id}")
+    ResponseEntity<?> delete(@PathVariable String shop,
                 @PathVariable(required = true) Long id) {
 
-        orderService.delete( shop, id);
+        return orderService.delete( shop, id);
     }
 
 }//:)

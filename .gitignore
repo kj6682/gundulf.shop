@@ -12,4 +12,5 @@ target/
 **/.idea/workspace.xml
 **/.idea/*.xml
 node_modules/*
+*.ods*
 

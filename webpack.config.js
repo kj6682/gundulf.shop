@@ -86,7 +86,7 @@ module.exports = (env = {}) => {
                 contentBase: TEMPLATE_DIR,
                 historyApiFallback: true,
                 inline: true,
-                port: 8081
+                port: 8091
             }
         })(),
     }
