@@ -5,7 +5,7 @@ import OrderList from './components/OrderList.jsx';
 import Divider from 'material-ui/Divider';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
-
+import SwitchesGroup from './components/SwitchesGroup'
 import './App.css';
 
 const endpoint = 'http://localhost:8090/api/shop/paris/orderlines/';
@@ -70,6 +70,10 @@ class App extends Component {
                       </Typography>
                   </Toolbar>
               </AppBar>
+
+              <Divider/>
+
+              <SwitchesGroup/>
 
               <Divider/>
               {fourOrderList}

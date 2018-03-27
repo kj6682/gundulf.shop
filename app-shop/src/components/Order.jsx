@@ -1,15 +1,28 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import {
+import List, {
     ListItem,
     ListItemIcon,
     ListItemText,
 } from 'material-ui/List';
-
+import Divider from 'material-ui/Divider';
 import FolderIcon from 'material-ui-icons/Folder';
+import FloatingActionButtons from './FloatingActionButtons'
+
+import {withStyles} from 'material-ui/styles';
+
+const styles = theme => ({
+    root: {
+        width: '100%',
+        maxWidth: 360,
+        backgroundColor: theme.palette.background.paper,
+    },
+});
+
 
 class Order extends Component {
+
     constructor(props) {
         super(props);
 
@@ -27,8 +40,8 @@ class Order extends Component {
 
     componentDidMount() {
         this.setState({
-                "order":this.props.order,
-                "quantity":this.props.order.quantity
+                "order": this.props.order,
+                "quantity": this.props.order.quantity
             }
         )
     }
@@ -53,7 +66,7 @@ class Order extends Component {
         let o = this.state.order
 
 
-        if(quantity > 0) {
+        if (quantity > 0) {
             var json = JSON.stringify({
                 "id": o.id,
                 "created": o.created,
@@ -86,9 +99,8 @@ class Order extends Component {
     }
 
 
-
     handleChange(e) {
-       let value = e.target.value
+        let value = e.target.value
 
         if (isNaN(value) || value < 0) {
             this.setState({
@@ -128,16 +140,16 @@ class Order extends Component {
         return (
 
             <ListItem>
-                <ListItemIcon>
-                    <FolderIcon />
-                </ListItemIcon>
-                <ListItemText
-                    primary={<div>
-                                <h3>{this.props.order.producer}</h3>
-                                <h1>{this.props.order.product}</h1>
-                            </div>}
-                    secondary={this.props.order.quantity}
-                />
+               <ListItem button>
+                    <ListItemText
+                        primary={<div>
+                            <h5>{this.props.order.producer}</h5>
+                            <h1>{this.props.order.product}</h1>
+                            <h2>{this.props.order.quantity}</h2>
+                        </div>}
+                        secondary={<FloatingActionButtons/>}
+                    />
+                </ListItem>
             </ListItem>
 
         )
@@ -149,7 +161,7 @@ Order.propTypes = {
     callbacks: PropTypes.object.isRequired,
 }
 
-export default Order
+export default withStyles(styles)(Order);
 
                            
                            
