@@ -21,7 +21,13 @@ class SwitchesGroup extends React.Component {
     };
 
     render() {
+        const myStyle = {
+            color: 'palevioletred',
+            backgroundColor: 'papayawhip',
+            padding: '30px',
+        }
         return (
+            <div style={myStyle}>
             <FormControl component="fieldset">
                 <FormLabel component="legend">Filtrer le fournisseur</FormLabel>
                 <FormGroup>
@@ -41,7 +47,7 @@ class SwitchesGroup extends React.Component {
                             <Switch
                                 checked={this.state.chocolat}
                                 onChange={this.handleChange('chocolat')}
-                                value="chocolat"
+                                value="chocolate"
                             />
                         }
                         label="Chocolate"
@@ -69,6 +75,7 @@ class SwitchesGroup extends React.Component {
                 </FormGroup>
                 <FormHelperText>Be careful</FormHelperText>
             </FormControl>
+            </div>
         );
     }
 }

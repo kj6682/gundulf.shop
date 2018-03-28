@@ -5,6 +5,7 @@ import OrderList from './components/OrderList.jsx';
 import Divider from 'material-ui/Divider';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
+import CssBaseline from 'material-ui/CssBaseline';
 import SwitchesGroup from './components/SwitchesGroup'
 import './App.css';
 
@@ -63,6 +64,7 @@ class App extends Component {
 
         return (
       <div className="App">
+          <CssBaseline />
           <MuiThemeProvider>
               <AppBar position="static" color="primary">
                   <Toolbar>
