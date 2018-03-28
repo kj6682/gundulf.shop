@@ -11,7 +11,7 @@ export API_ORDERS="http://localhost:9100"
 set -e
 set -o pipefail
 
-npm run build-dev
+#npm run build-dev
 #mvn clean install
 #./java -Dspring.profiles.active=dev $JAVA_OPTS -jar target/gundulf-$VERSION.jar
 mvn clean spring-boot:run -P h2 -Drun.profiles=h2

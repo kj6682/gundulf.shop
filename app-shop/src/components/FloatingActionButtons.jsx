@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import Button from 'material-ui/Button';
 import AddIcon from 'material-ui-icons/Add';
-import RemoveShoppingCart from 'material-ui-icons/RemoveShoppingCart';
+import RemoveIcon from 'material-ui-icons/Remove';
 import Icon from 'material-ui/Icon';
 import DeleteIcon from 'material-ui-icons/Delete';
 
@@ -17,11 +17,11 @@ function FloatingActionButtons(props) {
     const { classes } = props;
     return (
         <div>
+            <Button variant="fab" color="primary" aria-label="edit" className={classes.button}>
+                <RemoveIcon/>
+            </Button>
             <Button variant="fab" color="primary" aria-label="add" className={classes.button}>
                 <AddIcon />
-            </Button>
-            <Button variant="fab" color="primary" aria-label="edit" className={classes.button}>
-                <RemoveShoppingCart/>
             </Button>
         </div>
     );

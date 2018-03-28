@@ -8,6 +8,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@CrossOrigin(origins = {"http://localhost:3000",
+                        "http://localhost:8091",
+                        "http://gundulf-shop.herokuapp.com",
+                        "https://gundulf-shop.herokuapp.com"})
 @RestController
 @RequestMapping("/api")
 class ShopController {

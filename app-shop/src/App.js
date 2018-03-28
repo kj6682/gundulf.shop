@@ -17,7 +17,8 @@ class App extends Component {
         this.state = {
             orders: [],
             four:[],
-            chocolat:[]
+            chocolat:[],
+            entremets:[]
         };
 
         this.fetchOrders = this.fetchOrders.bind(this)
