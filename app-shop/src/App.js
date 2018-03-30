@@ -6,7 +6,8 @@ import Divider from 'material-ui/Divider';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import CssBaseline from 'material-ui/CssBaseline';
-import SwitchesGroup from './components/SwitchesGroup'
+import SwitchesGroup from './components/SwitchesGroup';
+import SearchBar from './components/SearchBar'
 import './App.css';
 
 const endpoint = 'http://localhost:8090/api/shop/paris/orderlines/';
@@ -19,10 +20,12 @@ class App extends Component {
             orders: [],
             four:[],
             chocolat:[],
-            entremets:[]
+            entremets:[],
+            search4me: ''
         };
 
-        this.fetchOrders = this.fetchOrders.bind(this)
+        this.fetchOrders = this.fetchOrders.bind(this);
+        this.filter = this.filter.bind(this);
     }
 
     componentWillMount() {
@@ -42,12 +45,16 @@ class App extends Component {
             });
     }
 
+    filter(searchTerm) {
+        this.setState({search4me: searchTerm})
+    }
+
     render(){
         let today = new Date().toISOString().slice(0, 10);
         let title = "Ordres du jour " + today;
 
         let fourOrderList = <OrderList orders={this.state.four}
-                                       filterText={''}
+                                       filterText={this.state.search4me}
                                        callbacks={{
                                            create: this.createOrder,
                                            update: this.updateOrder,
@@ -55,12 +62,12 @@ class App extends Component {
                                        }}/>
 
         let chocolatOrderList = <OrderList orders={this.state.chocolat}
-                                       filterText={''}
-                                       callbacks={{
-                                           create: this.createOrder,
-                                           update: this.updateOrder,
-                                           delete: this.deleteOrder
-                                       }}/>
+                                           filterText={this.state.search4me}
+                                           callbacks={{
+                                               create: this.createOrder,
+                                               update: this.updateOrder,
+                                               delete: this.deleteOrder
+                                           }}/>
 
         return (
       <div className="App">
@@ -77,6 +84,11 @@ class App extends Component {
               <Divider/>
 
               <SwitchesGroup/>
+
+              <SearchBar filterText={this.state.search4me}
+                         callbacks={{
+                             onUserInput: this.filter,
+                         }}/>
 
               <Divider/>
               {fourOrderList}
