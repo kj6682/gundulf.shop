@@ -38,7 +38,7 @@ class SwitchesGroup extends React.Component {
                             <Switch
                                 checked={this.state.four}
                                 onChange={this.handleChange('four')}
-                                value="four"
+                                value="isFourVisible"
                             />
                         }
                         label="Four"
@@ -48,7 +48,7 @@ class SwitchesGroup extends React.Component {
                             <Switch
                                 checked={this.state.chocolat}
                                 onChange={this.handleChange('chocolat')}
-                                value="chocolate"
+                                value="isChocolateVisible"
                             />
                         }
                         label="Chocolate"
@@ -58,7 +58,7 @@ class SwitchesGroup extends React.Component {
                             <Switch
                                 checked={this.state.entremets}
                                 onChange={this.handleChange('entremets')}
-                                value="entremets"
+                                value="isEntremetsVisible"
                             />
                         }
                         label="Entremets"
@@ -68,7 +68,7 @@ class SwitchesGroup extends React.Component {
                             <Switch
                                 checked={this.state.tartes}
                                 onChange={this.handleChange('tartes')}
-                                value="tartes"
+                                value="isTartesVisible"
                             />
                         }
                         label="Tartes"
