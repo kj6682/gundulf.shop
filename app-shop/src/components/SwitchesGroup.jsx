@@ -18,6 +18,7 @@ class SwitchesGroup extends React.Component {
 
     handleChange = name => (event, checked) => {
         this.setState({[name]: checked});
+        this.props.callbacks.hide(event.target.value);
     };
 
     render() {

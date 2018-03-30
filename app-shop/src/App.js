@@ -21,11 +21,14 @@ class App extends Component {
             four:[],
             chocolat:[],
             entremets:[],
-            search4me: ''
+            search4me: '',
+            isVisiblefour: 'true',
+            isVisiblechocolat: 'true'
         };
 
         this.fetchOrders = this.fetchOrders.bind(this);
         this.filter = this.filter.bind(this);
+        this.toggleHidden = this.toggleHidden.bind(this);
     }
 
     componentWillMount() {
@@ -47,6 +50,20 @@ class App extends Component {
 
     filter(searchTerm) {
         this.setState({search4me: searchTerm})
+    }
+
+    toggleHidden (what) {
+
+        if(what === 'four'){
+            this.setState({
+                ['isVisible'.concat([what])]: !this.state.isVisiblefour
+            })
+        }
+        if(what === 'chocolat'){
+            this.setState({
+                ['isVisible'.concat([what])]: !this.state.isVisiblechocolat
+            })
+        }
     }
 
     render(){
@@ -83,7 +100,9 @@ class App extends Component {
 
               <Divider/>
 
-              <SwitchesGroup/>
+              <SwitchesGroup callbacks={{hide: this.toggleHidden}}/>
+
+              <Divider/>
 
               <SearchBar filterText={this.state.search4me}
                          callbacks={{
@@ -91,10 +110,25 @@ class App extends Component {
                          }}/>
 
               <Divider/>
-              {fourOrderList}
+
+              {this.state.isVisiblefour && <OrderList orders={this.state.four}
+                                                  filterText={this.state.search4me}
+                                                  callbacks={{
+                                                      create: this.createOrder,
+                                                      update: this.updateOrder,
+                                                      delete: this.deleteOrder
+                                                  }}/>}
+
 
               <Divider/>
-              {chocolatOrderList}
+              {this.state.isVisiblechocolat && <OrderList orders={this.state.chocolat}
+                                                      filterText={this.state.search4me}
+                                                      callbacks={{
+                                                          create: this.createOrder,
+                                                          update: this.updateOrder,
+                                                          delete: this.deleteOrder
+                                                      }}/>}
+
 
           </MuiThemeProvider>
       </div>
