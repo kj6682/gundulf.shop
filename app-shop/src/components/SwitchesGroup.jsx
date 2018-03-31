@@ -18,7 +18,7 @@ class SwitchesGroup extends React.Component {
 
     handleChange = name => (event, checked) => {
         this.setState({[name]: checked});
-        this.props.callbacks.hide(event.target.value);
+        this.props.callbacks.hide(event.target.value, checked);
     };
 
     render() {
@@ -38,7 +38,7 @@ class SwitchesGroup extends React.Component {
                             <Switch
                                 checked={this.state.four}
                                 onChange={this.handleChange('four')}
-                                value="isFourVisible"
+                                value="isFourHidden"
                             />
                         }
                         label="Four"
@@ -48,7 +48,7 @@ class SwitchesGroup extends React.Component {
                             <Switch
                                 checked={this.state.chocolat}
                                 onChange={this.handleChange('chocolat')}
-                                value="isChocolateVisible"
+                                value="isChocolateHidden"
                             />
                         }
                         label="Chocolate"
@@ -58,7 +58,7 @@ class SwitchesGroup extends React.Component {
                             <Switch
                                 checked={this.state.entremets}
                                 onChange={this.handleChange('entremets')}
-                                value="isEntremetsVisible"
+                                value="isEntremetsHidden"
                             />
                         }
                         label="Entremets"
@@ -68,7 +68,7 @@ class SwitchesGroup extends React.Component {
                             <Switch
                                 checked={this.state.tartes}
                                 onChange={this.handleChange('tartes')}
-                                value="isTartesVisible"
+                                value="isTartesHidden"
                             />
                         }
                         label="Tartes"

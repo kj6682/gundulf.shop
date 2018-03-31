@@ -23,10 +23,10 @@ class App extends Component {
             entremets:[],
             tartes: [],
             search4me: '',
-            isFourVisible: true,
-            isChocolateVisible: true,
-            isEntremetsVisible: true,
-            isTartesVisible:true
+            isFourHidden: false,
+            isChocolateHidden: false,
+            isEntremetsHidden: false,
+            isTartesHidden:false
         };
 
         this.fetchOrders = this.fetchOrders.bind(this);
@@ -58,28 +58,12 @@ class App extends Component {
         this.setState({search4me: searchTerm})
     }
 
-    toggleHidden (what) {
+    toggleHidden (what, value) {
 
-        if(what === 'isFourVisible'){
-            this.setState({
-                isFourVisible: !this.state.isFourVisible
-            })
-        }
-        if(what === 'isChocolateVisible'){
-            this.setState({
-                isChocolateVisible: !this.state.isChocolateVisible
-            })
-        }
-        if(what === 'isTartesVisible'){
-            this.setState({
-                isTartesVisible: !this.state.isTartesVisible
-            })
-        }
-        if(what === 'isEntremetsVisible'){
-            this.setState({
-                isEntremetsVisible: !this.state.isEntremetsVisible
-            })
-        }
+        this.setState({
+            [what]: value
+        })
+        
     }
 
     render(){
@@ -100,7 +84,12 @@ class App extends Component {
 
               <Divider/>
 
-              <SwitchesGroup callbacks={{hide: this.toggleHidden}}/>
+              <SwitchesGroup   visible={{four: this.state.isFourHidden,
+                                         entremets: this.state.isEntremetsHidden,
+                                         chocolat: this.state.isChocolateHidden,
+                                         tartes:this.state.isTartesHidden}
+                                }
+                               callbacks={{hide: this.toggleHidden}}/>
 
               <Divider/>
 
@@ -111,7 +100,7 @@ class App extends Component {
 
               <Divider/>
 
-              {this.state.isFourVisible && <OrderList orders={this.state.four}
+              {!this.state.isFourHidden && <OrderList orders={this.state.four}
                                                   filterText={this.state.search4me}
                                                   callbacks={{
                                                       create: this.createOrder,
@@ -121,7 +110,7 @@ class App extends Component {
 
 
               <Divider/>
-              {this.state.isChocolateVisible && <OrderList orders={this.state.chocolat}
+              {!this.state.isChocolateHidden && <OrderList orders={this.state.chocolat}
                                                       filterText={this.state.search4me}
                                                       callbacks={{
                                                           create: this.createOrder,
@@ -130,7 +119,7 @@ class App extends Component {
                                                       }}/>}
 
               <Divider/>
-              {this.state.isEntremetsVisible && <OrderList orders={this.state.entremets}
+              {!this.state.isEntremetsHidden && <OrderList orders={this.state.entremets}
                                                            filterText={this.state.search4me}
                                                            callbacks={{
                                                                create: this.createOrder,
@@ -139,7 +128,7 @@ class App extends Component {
                                                            }}/>}
 
               <Divider/>
-              {this.state.isTartesVisible && <OrderList orders={this.state.tartes}
+              {!this.state.isTartesHidden && <OrderList orders={this.state.tartes}
                                                            filterText={this.state.search4me}
                                                            callbacks={{
                                                                create: this.createOrder,
