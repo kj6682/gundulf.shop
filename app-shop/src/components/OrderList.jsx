@@ -36,11 +36,7 @@ class OrderList extends Component {
 
         return (
             <div>
-                {(this.props.orders.length > 0) ?
-                        <List component="nav">
-                            {orders}
-                        </List>
-                        : <p>no object found for this selection</p>}
+                {orders}
             </div>
         )
 

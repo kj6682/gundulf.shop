@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
+import Typography from 'material-ui/Typography';
+import Card, {CardActions, CardContent} from 'material-ui/Card';
 import List, {
     ListItem,
     ListItemIcon,
@@ -9,6 +11,9 @@ import List, {
 import Divider from 'material-ui/Divider';
 import FolderIcon from 'material-ui-icons/Folder';
 import FloatingActionButtons from './FloatingActionButtons'
+import Button from 'material-ui/Button';
+import AddIcon from 'material-ui-icons/Add';
+import RemoveIcon from 'material-ui-icons/Remove';
 
 import {withStyles} from 'material-ui/styles';
 
@@ -136,21 +141,48 @@ class Order extends Component {
     }
 
     render() {
+        const card = {
+            display: 'flex',
+        }
+
+        const details = {
+            display: 'flex',
+            flexDirection: 'column',
+        }
 
         return (
 
-            <ListItem>
-               <ListItem button>
-                    <ListItemText
-                        primary={<div>
-                            <h5>{this.props.order.producer}</h5>
-                            <h1>{this.props.order.product}</h1>
-                            <h2>{this.props.order.quantity}</h2>
-                        </div>}
-                        secondary={<FloatingActionButtons/>}
-                    />
-                </ListItem>
-            </ListItem>
+
+            <Card >
+                <div style={details}>
+                    <CardContent>
+                        <Typography color="textSecondary">
+                            {this.props.order.producer}
+                            <br/>
+                            {this.props.order.deadline}
+                        </Typography>
+                        <Typography color="textSecondary">
+                            {"  "}
+
+                        </Typography>
+                        <Typography variant="headline" component="h1">
+                            {this.props.order.product}
+                        </Typography>
+                        <div>
+                            <Button variant="fab" color="primary" aria-label="edit">
+                                <RemoveIcon/>
+                            </Button>
+                            <Typography variant="headline" component="h1">
+                                {this.props.order.quantity}
+                            </Typography>
+                            <Button variant="fab" color="primary" aria-label="add">
+                                <AddIcon/>
+                            </Button>
+                        </div>
+                    </CardContent>
+                </div>
+            </Card>
+
 
         )
     }
